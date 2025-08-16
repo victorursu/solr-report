@@ -81,7 +81,11 @@ class SolrClient {
       // Faceting parameters
       if (params.facet) queryParams.append('facet', 'true');
       if (params['facet.field']) {
-        params['facet.field'].forEach(field => queryParams.append('facet.field', field));
+        if (Array.isArray(params['facet.field'])) {
+          params['facet.field'].forEach(field => queryParams.append('facet.field', field));
+        } else {
+          queryParams.append('facet.field', params['facet.field']);
+        }
       }
       if (params['facet.limit']) queryParams.append('facet.limit', params['facet.limit'].toString());
       if (params['facet.mincount']) queryParams.append('facet.mincount', params['facet.mincount'].toString());
@@ -173,13 +177,13 @@ class SolrClient {
     }
   }
 
-  async deleteDocument(id: string): Promise<any> {
+  async deleteDocument(query: string): Promise<any> {
     try {
-      console.log('Deleting document with ID:', id);
+      console.log('Deleting documents with query:', query);
       
       const deleteData = {
         delete: {
-          query: `id:"${id}"`
+          query: query
         }
       };
 
@@ -203,8 +207,8 @@ class SolrClient {
       console.log('Delete response:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Failed to delete document:', error);
-      throw new Error(`Failed to delete document: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('Failed to delete document(s):', error);
+      throw new Error(`Failed to delete document(s): ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 }
