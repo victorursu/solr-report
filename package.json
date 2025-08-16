@@ -2,6 +2,22 @@
   "name": "solr-report",
   "version": "0.1.0",
   "private": true,
+  "description": "A modern Next.js application for running reports and queries on Apache Solr search servers",
+  "author": "Victor Ursu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/victorursu/solr-report.git"
+  },
+  "keywords": [
+    "solr",
+    "apache-solr",
+    "search",
+    "dashboard",
+    "nextjs",
+    "react",
+    "typescript"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
