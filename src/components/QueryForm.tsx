@@ -17,7 +17,7 @@ interface QueryFormData {
 }
 
 interface QueryFormProps {
-  onExecuteQuery: (queryData: any) => void;
+  onExecuteQuery: (queryData: Record<string, unknown>) => void;
   isLoading?: boolean;
   selectedHash?: string | null;
 }
@@ -25,7 +25,7 @@ interface QueryFormProps {
 export default function QueryForm({ onExecuteQuery, isLoading = false, selectedHash }: QueryFormProps) {
   const [filterQueries, setFilterQueries] = useState<string[]>(['']);
   
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<QueryFormData>({
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<QueryFormData>({
     defaultValues: {
       query: '*:*',
       rows: 10,

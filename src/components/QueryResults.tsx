@@ -46,7 +46,7 @@ export default function QueryResults({ results, isLoading, error, queryTime }: Q
     );
   }
 
-  const { response, responseHeader, facet_counts } = results;
+  const { response, facet_counts } = results;
   
   // Use the actual start and rows from the Solr response instead of client-side pagination
   const actualStart = response?.start || 0;
@@ -67,7 +67,7 @@ export default function QueryResults({ results, isLoading, error, queryTime }: Q
     URL.revokeObjectURL(url);
   };
 
-  const getFieldValue = (doc: any, field: string) => {
+  const getFieldValue = (doc: Record<string, unknown>, field: string) => {
     const value = doc[field];
     if (Array.isArray(value)) {
       return value.join(', ');
@@ -82,7 +82,7 @@ export default function QueryResults({ results, isLoading, error, queryTime }: Q
     const fields = new Set<string>();
     response?.docs?.forEach(doc => {
       Object.keys(doc).forEach(key => fields.add(key));
-    }) || [];
+    });
     return Array.from(fields).sort();
   };
 

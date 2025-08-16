@@ -163,7 +163,7 @@ export default function HashList({ isConnected, onHashSelect, selectedHash }: Ha
 
       {!isLoading && !error && hashes.length > 0 && (
         <div className="space-y-2 max-h-64 overflow-y-auto">
-          {hashes.map((hashData, index) => (
+          {hashes.map((hashData) => (
             <div
               key={hashData.hash}
               className={`flex items-center justify-between p-2 rounded border hover:bg-gray-50 ${

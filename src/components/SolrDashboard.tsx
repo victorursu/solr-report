@@ -8,6 +8,19 @@ import QueryForm from './QueryForm';
 import QueryResults from './QueryResults';
 import DynamicTitle from './DynamicTitle';
 
+interface QueryData {
+  q?: string;
+  rows?: number;
+  start?: number;
+  sort?: string;
+  fl?: string[];
+  facet?: boolean;
+  'facet.field'?: string[];
+  'facet.limit'?: number;
+  'facet.mincount'?: number;
+  fq?: string[];
+}
+
 export default function SolrDashboard() {
   const [results, setResults] = useState<SolrResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +52,7 @@ export default function SolrDashboard() {
     setSelectedHash(hash);
   };
 
-  const executeQuery = async (queryData: any) => {
+  const executeQuery = async (queryData: QueryData) => {
     setIsLoading(true);
     setError(null);
     setQueryTime(null);
@@ -47,7 +60,7 @@ export default function SolrDashboard() {
     const startTime = performance.now();
     
     // Add hash filter if a hash is selected
-    const finalQueryData = { ...queryData };
+    const finalQueryData: QueryData = { ...queryData };
     if (selectedHash) {
       console.log('Adding hash filter:', selectedHash);
       if (!finalQueryData.fq) {
