@@ -71,7 +71,11 @@ class SolrClient {
       if (params.start !== undefined) queryParams.append('start', params.start.toString());
       if (params.rows !== undefined) queryParams.append('rows', params.rows.toString());
       if (params.fl) {
-        params.fl.forEach(fl => queryParams.append('fl', fl));
+        if (Array.isArray(params.fl)) {
+          params.fl.forEach(fl => queryParams.append('fl', fl));
+        } else {
+          queryParams.append('fl', params.fl);
+        }
       }
       
       // Faceting parameters
@@ -166,6 +170,41 @@ class SolrClient {
     } catch (error) {
       console.error('Connection test failed:', error);
       return false;
+    }
+  }
+
+  async deleteDocument(id: string): Promise<any> {
+    try {
+      console.log('Deleting document with ID:', id);
+      
+      const deleteData = {
+        delete: {
+          query: `id:"${id}"`
+        }
+      };
+
+      const config: any = {
+        timeout: this.timeout,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      // Add authentication if credentials are provided
+      if (this.username && this.password) {
+        config.auth = {
+          username: this.username,
+          password: this.password,
+        };
+      }
+
+      const response = await axios.post(`${this.getUrl('/update')}?commit=true`, deleteData, config);
+      
+      console.log('Delete response:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to delete document:', error);
+      throw new Error(`Failed to delete document: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 }

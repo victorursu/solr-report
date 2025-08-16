@@ -6,6 +6,7 @@ import ConnectionStatus from './ConnectionStatus';
 import HashList from './HashList';
 import QueryForm from './QueryForm';
 import QueryResults from './QueryResults';
+import DeleteDocumentForm from './DeleteDocumentForm';
 import DynamicTitle from './DynamicTitle';
 
 interface QueryData {
@@ -167,6 +168,17 @@ export default function SolrDashboard() {
               queryTime={queryTime}
             />
           </div>
+        </div>
+
+        {/* Delete Document Section */}
+        <div className="mt-8">
+          <DeleteDocumentForm 
+            isConnected={isConnected || false}
+            onDeleteSuccess={() => {
+              // Optionally refresh results or show a success message
+              console.log('Document deleted successfully');
+            }}
+          />
         </div>
 
         {/* Quick Stats */}
