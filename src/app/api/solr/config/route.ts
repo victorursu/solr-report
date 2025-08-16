@@ -5,6 +5,7 @@ export async function GET() {
     const config = {
       solrUrl: process.env.SOLR_URL || 'http://localhost:8983/solr',
       solrCore: process.env.SOLR_CORE || 'your_core_name',
+      showUniqueValues: process.env.SHOW_UNIQUE_VALUES || null,
     };
     
     return NextResponse.json(config);

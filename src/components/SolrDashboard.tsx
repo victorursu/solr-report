@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { SolrResponse } from '@/lib/solr-client';
 import ConnectionStatus from './ConnectionStatus';
 import HashList from './HashList';
+import UniqueValuesList from './UniqueValuesList';
 import QueryForm from './QueryForm';
 import QueryResults from './QueryResults';
 import DeleteDocumentForm from './DeleteDocumentForm';
@@ -28,8 +29,9 @@ export default function SolrDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState<boolean | null>(null);
   const [selectedHash, setSelectedHash] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [queryTime, setQueryTime] = useState<number | null>(null);
-  const [solrConfig, setSolrConfig] = useState<{ solrUrl: string; solrCore: string } | null>(null);
+  const [solrConfig, setSolrConfig] = useState<{ solrUrl: string; solrCore: string; showUniqueValues?: string } | null>(null);
 
   // Fetch Solr configuration on component mount
   useEffect(() => {
@@ -53,6 +55,11 @@ export default function SolrDashboard() {
     setSelectedHash(hash);
   };
 
+  const handleValueSelect = (value: string) => {
+    console.log('Value selected:', value);
+    setSelectedValue(value);
+  };
+
   const executeQuery = async (queryData: QueryData) => {
     setIsLoading(true);
     setError(null);
@@ -70,6 +77,17 @@ export default function SolrDashboard() {
       // Add hash filter to existing filter queries
       finalQueryData.fq.push(`hash:${selectedHash}`);
       console.log('Final query data with hash filter:', finalQueryData);
+    }
+
+    // Add value filter if a value is selected
+    if (selectedValue && solrConfig?.showUniqueValues) {
+      console.log('Adding value filter:', selectedValue, 'for field:', solrConfig.showUniqueValues);
+      if (!finalQueryData.fq) {
+        finalQueryData.fq = [];
+      }
+      // Add value filter to existing filter queries
+      finalQueryData.fq.push(`${solrConfig.showUniqueValues}:${JSON.stringify(selectedValue)}`);
+      console.log('Final query data with value filter:', finalQueryData);
     }
     
     try {
@@ -147,6 +165,31 @@ export default function SolrDashboard() {
             </div>
           )}
         </div>
+
+        {/* Unique Values List */}
+        {solrConfig?.showUniqueValues && (
+          <div className="mb-6">
+            <UniqueValuesList 
+              isConnected={isConnected || false} 
+              onValueSelect={handleValueSelect}
+              selectedValue={selectedValue}
+              fieldName={solrConfig.showUniqueValues}
+            />
+            {selectedValue && (
+              <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm">
+                <span className="text-green-700">
+                  <strong>Filtered by {solrConfig.showUniqueValues}:</strong> {selectedValue}
+                </span>
+                <button
+                  onClick={() => setSelectedValue(null)}
+                  className="ml-2 text-green-500 hover:text-green-700 underline"
+                >
+                  Clear filter
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
