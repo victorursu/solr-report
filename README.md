@@ -35,6 +35,12 @@ A modern Next.js application for running reports and queries on Apache Solr sear
 - **Visual Hash Indicators**: Color-coded hash display
 - **Hash Statistics**: Document counts per environment
 
+### 🔧 **Configurable Field-based Filtering**
+- **Dynamic Unique Values**: Configurable field for unique value filtering via `SHOW_UNIQUE_VALUES`
+- **Interactive Value Selection**: Click to filter queries by any field value
+- **Visual Value Indicators**: Color-coded value display with document counts
+- **Flexible Configuration**: Easy field switching through environment variables
+
 ### 📈 **Faceting & Analytics**
 - **Field Faceting**: Get distinct counts of field values
 - **Facet Visualization**: Clean display of facet results
@@ -88,6 +94,9 @@ A modern Next.js application for running reports and queries on Apache Solr sear
    # Optional: Additional Solr settings
    SOLR_TIMEOUT=30000
    SOLR_MAX_ROWS=1000
+   
+   # Unique Values Configuration
+   SHOW_UNIQUE_VALUES=site
    ```
 
    **Configuration Options:**
@@ -97,6 +106,7 @@ A modern Next.js application for running reports and queries on Apache Solr sear
    - `SOLR_PASSWORD`: Password for authentication (if required)
    - `SOLR_TIMEOUT`: Request timeout in milliseconds (default: 30000)
    - `SOLR_MAX_ROWS`: Maximum rows to return (default: 1000)
+   - `SHOW_UNIQUE_VALUES`: Field name to display unique values for filtering (e.g., "site", "category", "type")
 
 4. **Start the development server**
    ```bash
@@ -131,7 +141,15 @@ Use the Query Builder to construct Solr queries:
 - **Filter by Environment**: Click on any hash to filter queries by that environment
 - **Clear Filters**: Use the "Clear filter" button to remove hash-based filtering
 
-### 4. Query Examples
+### 4. Configurable Field Filtering
+
+- **Configure Field**: Set `SHOW_UNIQUE_VALUES=fieldname` in your `.env.local` file
+- **View Unique Values**: The component automatically appears and shows all unique values for the configured field
+- **Filter by Value**: Click on any value to filter queries by that field value
+- **Combine Filters**: Works alongside hash filtering for complex queries
+- **Clear Filters**: Use the "Clear filter" button to remove value-based filtering
+
+### 5. Query Examples
 
 **Basic Queries:**
 - `*:*` - All documents
@@ -149,7 +167,7 @@ Use the Query Builder to construct Solr queries:
 - Execute any query to see results filtered by that environment
 - Combine with other filter queries for complex filtering
 
-### 5. Viewing Results
+### 6. Viewing Results
 
 Results are displayed in two modes:
 - **Table View**: Structured table with all fields
@@ -212,6 +230,7 @@ src/
 │   ├── QueryForm.tsx
 │   ├── QueryResults.tsx
 │   ├── HashList.tsx
+│   ├── UniqueValuesList.tsx
 │   ├── SolrDashboard.tsx
 │   └── DynamicTitle.tsx
 └── lib/                 # Utility libraries
@@ -233,6 +252,7 @@ src/
 - **QueryForm**: Form for building Solr queries
 - **QueryResults**: Results display with pagination
 - **HashList**: Environment hash filtering
+- **UniqueValuesList**: Configurable field value filtering
 - **ConnectionStatus**: Connection monitoring
 - **SolrClient**: Server-side Solr interaction
 
@@ -244,6 +264,7 @@ The application uses React hooks for state management:
 - Loading states
 - Error handling
 - Hash selection
+- Value selection
 - Query timing
 
 ## 🐛 Troubleshooting
