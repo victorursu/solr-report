@@ -31,35 +31,40 @@ export default function ConnectionStatus({ onConnectionChange }: ConnectionStatu
   };
 
   useEffect(() => {
-    testConnection();
+    const timer = window.setTimeout(() => {
+      void testConnection();
+    }, 0);
+    return () => window.clearTimeout(timer);
+    // Initial connection probe on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-4">
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border dark:border-slate-700 p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-2">
             {isLoading ? (
-              <RefreshCw className="h-5 w-5 text-gray-500 animate-spin" />
+              <RefreshCw className="h-5 w-5 text-gray-600 dark:text-slate-300 animate-spin" />
             ) : isConnected ? (
-              <Wifi className="h-5 w-5 text-green-500" />
+              <Wifi className="h-5 w-5 text-green-600 dark:text-green-400" />
             ) : (
-              <WifiOff className="h-5 w-5 text-red-500" />
+              <WifiOff className="h-5 w-5 text-red-600 dark:text-red-400" />
             )}
-            <span className="font-medium text-gray-900">Solr Connection</span>
+            <span className="font-medium text-gray-900 dark:text-slate-100">Solr Connection</span>
           </div>
           
           {isConnected !== null && (
             <div className="flex items-center space-x-1">
               {isConnected ? (
                 <>
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span className="text-sm text-green-600">Connected</span>
+                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  <span className="text-sm text-green-700 dark:text-green-300 font-medium">Connected</span>
                 </>
               ) : (
                 <>
-                  <XCircle className="h-4 w-4 text-red-500" />
-                  <span className="text-sm text-red-600">Disconnected</span>
+                  <XCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                  <span className="text-sm text-red-700 dark:text-red-300 font-medium">Disconnected</span>
                 </>
               )}
             </div>
@@ -69,7 +74,7 @@ export default function ConnectionStatus({ onConnectionChange }: ConnectionStatu
         <button
           onClick={testConnection}
           disabled={isLoading}
-          className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-1"
+          className="px-3 py-1 text-sm bg-blue-600 dark:bg-blue-500 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-1 shadow-sm"
         >
           <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
           <span>Test</span>
@@ -77,7 +82,7 @@ export default function ConnectionStatus({ onConnectionChange }: ConnectionStatu
       </div>
 
       {lastChecked && (
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-xs text-gray-600 dark:text-slate-400 mt-2">
           Last checked: {lastChecked.toLocaleTimeString()}
         </p>
       )}

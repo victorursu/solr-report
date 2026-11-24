@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f9fafb;
+  --foreground: #111827;
 }
 
 @theme inline {
@@ -12,20 +12,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Ensure input fields have proper contrast */
+/* Dark mode support */
+.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+}
+
+/* Ensure input fields have proper contrast in light mode */
 input[type="text"],
 input[type="number"],
 input[type="email"],
@@ -33,35 +32,96 @@ input[type="password"],
 input[type="search"],
 textarea,
 select {
-  color: #1f2937 !important; /* text-gray-900 */
+  color: #111827 !important; /* text-gray-900 - very dark for readability */
   background-color: #ffffff !important;
+  border-color: #d1d5db !important;
 }
 
-/* Dark mode overrides for inputs */
-@media (prefers-color-scheme: dark) {
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  input[type="password"],
-  input[type="search"],
-  textarea,
-  select {
-    color: #1f2937 !important; /* Keep dark text for readability */
-    background-color: #ffffff !important; /* Keep white background */
-  }
+/* Dark mode input overrides - keep readable */
+.dark input[type="text"],
+.dark input[type="number"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="search"],
+.dark textarea,
+.dark select {
+  color: #f1f5f9 !important; /* Light text for dark mode */
+  background-color: #1e293b !important; /* Dark background */
+  border-color: #475569 !important;
 }
 
-/* Ensure all titles and headings are visible */
+/* Ensure all titles and headings are visible in light mode */
 h1, h2, h3, h4, h5, h6,
 .font-medium,
 .font-semibold,
 .font-bold {
-  color: #111827 !important; /* text-gray-900 */
+  color: #111827 !important; /* text-gray-900 - very dark */
 }
 
-/* Override any light text on white backgrounds */
-.text-gray-500,
-.text-gray-400,
+/* Dark mode heading colors - very light for contrast */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+.dark .font-medium,
+.dark .font-semibold,
+.dark .font-bold {
+  color: #f8fafc !important; /* text-slate-50 - very light */
+}
+
+/* Body text colors for better readability */
+p, span, div, li, td, th {
+  color: inherit;
+}
+
+/* Light mode - ensure dark text */
+body:not(.dark) p,
+body:not(.dark) span:not([class*="text-"]),
+body:not(.dark) div:not([class*="text-"]),
+body:not(.dark) li:not([class*="text-"]) {
+  color: #1f2937 !important; /* text-gray-800 */
+}
+
+/* Dark mode - ensure light text */
+.dark p:not([class*="text-"]),
+.dark span:not([class*="text-"]),
+.dark div:not([class*="text-"]),
+.dark li:not([class*="text-"]) {
+  color: #e2e8f0 !important; /* text-slate-200 */
+}
+
+/* Override any light text on white backgrounds - make darker */
+.text-gray-500 {
+  color: #4b5563 !important; /* text-gray-600 - darker for better contrast */
+}
+.text-gray-400 {
+  color: #6b7280 !important; /* text-gray-500 - darker */
+}
 .text-gray-300 {
-  color: #6b7280 !important; /* text-gray-500 - darker than before */
+  color: #9ca3af !important; /* text-gray-400 - darker */
+}
+
+/* Dark mode text colors - lighter for contrast */
+.dark .text-gray-500 {
+  color: #cbd5e1 !important; /* text-slate-300 */
+}
+.dark .text-gray-400 {
+  color: #cbd5e1 !important; /* text-slate-300 */
+}
+.dark .text-gray-300 {
+  color: #e2e8f0 !important; /* text-slate-200 */
+}
+
+/* Card backgrounds for better contrast */
+.bg-white {
+  background-color: #ffffff !important;
+}
+
+.dark .bg-white {
+  background-color: #1e293b !important; /* slate-800 */
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #0f172a !important; /* slate-900 */
 }

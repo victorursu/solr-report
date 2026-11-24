@@ -239,7 +239,7 @@ export default function DeleteDocumentForm({ isConnected, onDeleteSuccess }: Del
             <label htmlFor="confirm-delete" className="text-sm text-red-800">
               <strong>I understand that this action cannot be undone.</strong> 
               <br />
-              This will permanently delete the document with ID "{documentId || '[ID]'}" from the Solr index.
+              This will permanently delete the document with ID &quot;{documentId || '[ID]'}&quot; from the Solr index.
             </label>
           </div>
 
@@ -319,7 +319,7 @@ export default function DeleteDocumentForm({ isConnected, onDeleteSuccess }: Del
               <div className="flex items-center space-x-2">
                 <Hash className="h-4 w-4 text-blue-600" />
                 <span className="text-sm font-medium text-blue-800">
-                  Found {documentCount} document(s) with hash "{hashValue}"
+                  Found {documentCount} document(s) with hash &quot;{hashValue}&quot;
                 </span>
               </div>
             </div>
@@ -337,7 +337,7 @@ export default function DeleteDocumentForm({ isConnected, onDeleteSuccess }: Del
             <label htmlFor="confirm-hash-delete" className="text-sm text-red-800">
               <strong>I understand that this action cannot be undone.</strong> 
               <br />
-              This will permanently delete {documentCount !== null ? `${documentCount} document(s)` : 'all documents'} with hash "{hashValue || '[HASH]'}" from the Solr index.
+              This will permanently delete {documentCount !== null ? `${documentCount} document(s)` : 'all documents'} with hash &quot;{hashValue || '[HASH]'}&quot; from the Solr index.
             </label>
           </div>
 
@@ -387,7 +387,7 @@ export default function DeleteDocumentForm({ isConnected, onDeleteSuccess }: Del
           <div className="text-sm text-yellow-800">
             <strong>Warning:</strong> Document deletion is permanent and cannot be undone. 
             Make sure you have the correct document ID or hash value before proceeding.
-            Use the "Count" button to verify the number of documents that will be deleted.
+            Use the &quot;Count&quot; button to verify the number of documents that will be deleted.
           </div>
         </div>
       </div>

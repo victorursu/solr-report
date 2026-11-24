@@ -55,7 +55,7 @@ A modern Next.js application for running reports and queries on Apache Solr sear
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: Next.js 15, React 18, TypeScript
+- **Frontend**: Next.js 16, React 19, TypeScript
 - **Styling**: Tailwind CSS
 - **HTTP Client**: Axios
 - **Icons**: Lucide React
@@ -64,7 +64,7 @@ A modern Next.js application for running reports and queries on Apache Solr sear
 
 ## 📋 Prerequisites
 
-- Node.js 18+ 
+- Node.js 20.9+ 
 - npm or yarn
 - Apache Solr server running and accessible
 

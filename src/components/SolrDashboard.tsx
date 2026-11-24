@@ -9,6 +9,7 @@ import QueryForm from './QueryForm';
 import QueryResults from './QueryResults';
 import DeleteDocumentForm from './DeleteDocumentForm';
 import DynamicTitle from './DynamicTitle';
+import ThemeToggle from './ThemeToggle';
 
 interface QueryData {
   q?: string;
@@ -122,22 +123,32 @@ export default function SolrDashboard() {
   return (
     <>
       <DynamicTitle solrConfig={solrConfig} />
-      <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Solr Report Dashboard
-            {solrConfig && (
-              <span className="text-xl font-normal text-gray-600 ml-2">
-                [{solrConfig.solrCore}] - [{solrConfig.solrUrl}]
-              </span>
-            )}
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Connect to your Solr server and run custom queries to generate reports
-          </p>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        {/* Sticky Header */}
+        <div className="sticky top-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-50">
+                  Solr Report Dashboard
+                  {solrConfig && (
+                    <span className="text-lg font-normal text-gray-700 dark:text-gray-300 ml-2">
+                      [{solrConfig.solrCore}] - [{solrConfig.solrUrl}]
+                    </span>
+                  )}
+                </h1>
+                <p className="mt-1 text-sm text-gray-700 dark:text-gray-300">
+                  Connect to your Solr server and run custom queries to generate reports
+                </p>
+              </div>
+              <div className="flex items-center">
+                <ThemeToggle />
+              </div>
+            </div>
+          </div>
         </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Connection Status */}
         <div className="mb-6">
@@ -152,13 +163,13 @@ export default function SolrDashboard() {
             selectedHash={selectedHash}
           />
           {selectedHash && (
-            <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-sm">
-              <span className="text-blue-700">
+            <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded text-sm">
+              <span className="text-blue-700 dark:text-blue-300">
                 <strong>Filtered by hash:</strong> {selectedHash}
               </span>
               <button
                 onClick={() => setSelectedHash(null)}
-                className="ml-2 text-blue-500 hover:text-blue-700 underline"
+                className="ml-2 text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline"
               >
                 Clear filter
               </button>
@@ -176,13 +187,13 @@ export default function SolrDashboard() {
               fieldName={solrConfig.showUniqueValues}
             />
             {selectedValue && (
-              <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded text-sm">
-                <span className="text-green-700">
+              <div className="mt-2 p-2 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded text-sm">
+                <span className="text-green-700 dark:text-green-300">
                   <strong>Filtered by {solrConfig.showUniqueValues}:</strong> {selectedValue}
                 </span>
                 <button
                   onClick={() => setSelectedValue(null)}
-                  className="ml-2 text-green-500 hover:text-green-700 underline"
+                  className="ml-2 text-green-500 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 underline"
                 >
                   Clear filter
                 </button>
@@ -227,27 +238,27 @@ export default function SolrDashboard() {
         {/* Quick Stats */}
         {results && results.response && (
           <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="bg-white rounded-lg shadow-sm border p-4">
-              <div className="text-sm font-medium text-gray-500">Total Documents</div>
-              <div className="text-2xl font-bold text-gray-900">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-4">
+              <div className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Documents</div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {results.response.numFound?.toLocaleString() || '0'}
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow-sm border p-4">
-              <div className="text-sm font-medium text-gray-500">Query Time</div>
-              <div className="text-2xl font-bold text-gray-900">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-4">
+              <div className="text-sm font-medium text-gray-500 dark:text-gray-400">Query Time</div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {queryTime !== null ? `${queryTime}ms` : 'N/A'}
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow-sm border p-4">
-              <div className="text-sm font-medium text-gray-500">Results Shown</div>
-              <div className="text-2xl font-bold text-gray-900">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-4">
+              <div className="text-sm font-medium text-gray-500 dark:text-gray-400">Results Shown</div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {results.response.docs?.length || '0'}
               </div>
             </div>
-            <div className="bg-white rounded-lg shadow-sm border p-4">
-              <div className="text-sm font-medium text-gray-500">Start Position</div>
-              <div className="text-2xl font-bold text-gray-900">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-4">
+              <div className="text-sm font-medium text-gray-500 dark:text-gray-400">Start Position</div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {results.response.start || '0'}
               </div>
             </div>
@@ -255,16 +266,16 @@ export default function SolrDashboard() {
         )}
 
         {/* Help Section */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-blue-900 mb-3">Query Help</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-blue-800">
+        <div className="mt-8 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-lg p-6">
+          <h3 className="text-lg font-medium text-blue-900 dark:text-blue-200 mb-3">Query Help</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-blue-800 dark:text-blue-200">
             <div>
               <h4 className="font-medium mb-2">Basic Queries</h4>
               <ul className="space-y-1">
-                <li><code className="bg-blue-100 px-1 rounded">*:*</code> - All documents</li>
-                <li><code className="bg-blue-100 px-1 rounded">field:value</code> - Exact match</li>
-                <li><code className="bg-blue-100 px-1 rounded">field:*value*</code> - Wildcard search</li>
-                <li><code className="bg-blue-100 px-1 rounded">field:[1 TO 10]</code> - Range query</li>
+                <li><code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">*:*</code> - All documents</li>
+                <li><code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">field:value</code> - Exact match</li>
+                <li><code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">field:*value*</code> - Wildcard search</li>
+                <li><code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">field:[1 TO 10]</code> - Range query</li>
               </ul>
             </div>
             <div>
